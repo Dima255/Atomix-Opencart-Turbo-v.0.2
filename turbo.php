@@ -334,7 +334,7 @@ function turbo_get_tables($getindexes=false) {
 function wall_clock($type='unknown') {
   // Work out execution time for debugging
   $time = microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"];
-  turbo_log("Время выполнения модуля ".$type." составило ".round($time,2)." секунд",'primary','TIMER');
+  turbo_log("Время выполнения модуля ".$type." составило ".round($time,2)." секунд",'primary','ТАЙМЕР');
 }
 
 
