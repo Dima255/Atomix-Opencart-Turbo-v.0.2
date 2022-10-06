@@ -89,6 +89,7 @@ if(!$db = turbo_db_connect()) {
           <li>Этот скрипт должен быть удален сразу после использования.</li>
           <li>Этот скрипт следует запустить снова после обновления OpenCart.</li>
           <li>Обновления можно найти на GitHub: <a href="<?php echo GITHUB_URL; ?>" target="_blank"><?php echo GITHUB_URL; ?></a>.</li>
+		  <li>Русифицированный скрипт на GitHub: <a href="https://github.com/Dima255/Atomix-Opencart-Turbo-v.0.2" target="_blank">https://github.com/Dima255/Atomix-Opencart-Turbo-v.0.2</a>.</li>
         </ul>
       </p>
     </div>
@@ -141,7 +142,7 @@ function turbo_switch_engine() {
   $tables = turbo_get_tables();
   $time_mend=microtime();
   $time = ($time_mend - $time_mstart) * 1000;
-  turbo_log("Время выполнения выборки ".count($tables)." tables was ".$time." ms",'primary','DEBUG');
+  turbo_log("Время выполнения выборки ".count($tables)." таблиц составило ".$time." мс",'primary','DEBUG');
 
   if($tables && count($tables) > 0) {
     turbo_log("Переключение механизма обработки таблиц Базы Данных...",'info','СТАРТ');
@@ -161,7 +162,7 @@ function turbo_switch_engine() {
       }
 	  $time_mend=microtime();
 	  $time = ($time_mend - $time_mstart) * 100000;
-      turbo_log("Время выполнения ".$table_name." was ".round($time,1)." ms",'primary','DEBUG');
+      turbo_log("Время выполнения ".$table_name." составило ".round($time,1)." мс",'primary','DEBUG');
 	  //wall_clock("{$table_name}");
     }
   }
@@ -250,7 +251,7 @@ function turbo_delete_self() {
   }
   else {
   //turbo_log("Files cleaned up successfully...",'danger','DELETED'); //this made the script write to a new log file - doh!
-  die("Файлы успешно очищены..."); //so we just die instead
+  die("Файлы успешно удалены..."); //so we just die instead
   }
 }
 
@@ -377,6 +378,3 @@ function turbo_db_connect() {
   $db = new mysqli(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
   return $db;
 }
-
-
-/* End of File */
