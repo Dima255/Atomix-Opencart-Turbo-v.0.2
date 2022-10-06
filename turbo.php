@@ -97,7 +97,7 @@ if(!$db = turbo_db_connect()) {
         <h3 class="panel-title">Доступные действия</h3>
       </div>
       <div class="panel-body">
-        <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'].'?action=engine'); ?>" class="btn btn-success btn-lg" onclick="return confirm('Вы уверены, что хотите преобразовать таблицы базы данных OpenCart из MyISAM в InnoDB?');">Преобразование Базы Юанных в InnoDB</a><br><br>
+        <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'].'?action=engine'); ?>" class="btn btn-success btn-lg" onclick="return confirm('Вы уверены, что хотите преобразовать таблицы базы данных OpenCart из MyISAM в InnoDB?');">Преобразование Базы Данных в InnoDB</a><br><br>
         <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'].'?action=indexes'); ?>" class="btn btn-success btn-lg" onclick="return confirm('Вы уверены, что хотите добавить индексы в свои таблицы базы данных OpenCart?');">Добавление индексов в Базу Данных</a><br><br>
 		<a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'].'?action=delete'); ?>" class="btn btn-danger btn-lg" onclick="return confirm('Вы уверены, что хотите удалить этот скрипт и связанный с ним файл журнала с вашего сервера?');">Удалите этот скрипт с сервера</a>
       </div>
