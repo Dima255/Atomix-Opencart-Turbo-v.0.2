@@ -54,11 +54,11 @@ if(file_exists('./config.php')) {
   }
 }
 else {
-  die("Aborting: File config.php not found!");
+  die("Прервано: Файл config.php не существует!");
 }
 
 if(!$db = turbo_db_connect()) {
-  die("Aborting: Unable to connect to DB! Please check your store settings within config.php");
+  die("Прервано: Не удается подключиться к Базе Данных! Проверьте настройки в config.php");
 }
 
 ?>
@@ -77,34 +77,34 @@ if(!$db = turbo_db_connect()) {
   <br>
   <div class="container">
     <div class="well">
-      <h2>Opencart Turbo v<?php echo VERSION; ?><br><small>Continued development by <a href="https://www.freedomitsolutions.co.uk">Alex 'Freedom' Haines</a></h2>
+      <h2>Opencart Turbo v<?php echo VERSION; ?><br><small>Дальнейшее развитие за счет <a href="https://www.freedomitsolutions.co.uk">Alex 'Freedom' Haines</a></h2>
       <p>
-        This script will apply several changes to boost the performance of OpenCart, including:<br>
+        Этот скрипт применит несколько изменений для повышения производительности OpenCart, в том числе:<br>
         <ul>
-          <li>Converting the MySQL DB Storage Engine from MyISAM to InnoDB.</li>
-          <li>Adding indexes to all foreign keys (columns ending with '_id') as well as those defined in the script index_list array.</li>
+          <li>Преобразование механизма хранения баз данных MySQL из MyISAM в InnoDB.</li>
+          <li>Добавление индексов ко всем внешним ключам (столбцам, заканчивающимся на '_id'), а также к тем, которые определены в массиве index_list скрипта.</li>
         </ul>
-        <strong>Notes:</strong><br>
+        <strong>Примечание:</strong><br>
         <ul>
-          <li>This script should be deleted immediately following use.</li>
-          <li>This script should be ran again following OpenCart upgrades.</li>
-          <li>Updates can be found at GitHub: <a href="<?php echo GITHUB_URL; ?>" target="_blank"><?php echo GITHUB_URL; ?></a>.</li>
+          <li>Этот скрипт должен быть удален сразу после использования.</li>
+          <li>Этот скрипт следует запустить снова после обновления OpenCart.</li>
+          <li>Обновления можно найти на GitHub: <a href="<?php echo GITHUB_URL; ?>" target="_blank"><?php echo GITHUB_URL; ?></a>.</li>
         </ul>
       </p>
     </div>
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h3 class="panel-title">Available Options</h3>
+        <h3 class="panel-title">Доступные действия</h3>
       </div>
       <div class="panel-body">
-        <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'].'?action=engine'); ?>" class="btn btn-success btn-lg" onclick="return confirm('Are you sure you want to convert your OpenCart database tables from MyISAM to InnoDB?');">Convert DB to InnoDB Engine</a><br><br>
-        <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'].'?action=indexes'); ?>" class="btn btn-success btn-lg" onclick="return confirm('Are you sure you want to add indexes to your OpenCart database tables?');">Add Indexes to the DB</a><br><br>
-		<a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'].'?action=delete'); ?>" class="btn btn-danger btn-lg" onclick="return confirm('Are you sure you want to remove this script and it\'s associated log file from your server?');">Remove This Script from Server</a>
+        <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'].'?action=engine'); ?>" class="btn btn-success btn-lg" onclick="return confirm('Вы уверены, что хотите преобразовать таблицы базы данных OpenCart из MyISAM в InnoDB?');">Преобразование Базы Юанных в InnoDB</a><br><br>
+        <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'].'?action=indexes'); ?>" class="btn btn-success btn-lg" onclick="return confirm('Вы уверены, что хотите добавить индексы в свои таблицы базы данных OpenCart?');">Добавление индексов в Базу Данных</a><br><br>
+		<a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'].'?action=delete'); ?>" class="btn btn-danger btn-lg" onclick="return confirm('Вы уверены, что хотите удалить этот скрипт и связанный с ним файл журнала с вашего сервера?');">Удалите этот скрипт с сервера</a>
       </div>
     </div>
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Output</h3>
+        <h3 class="panel-title">Результат</h3>
       </div>
       <div class="panel-body">
         <p><?php
@@ -141,33 +141,33 @@ function turbo_switch_engine() {
   $tables = turbo_get_tables();
   $time_mend=microtime();
   $time = ($time_mend - $time_mstart) * 1000;
-  turbo_log("Execution time for fetching ".count($tables)." tables was ".$time." ms",'primary','DEBUG');
+  turbo_log("Время выполнения выборки ".count($tables)." tables was ".$time." ms",'primary','DEBUG');
 
   if($tables && count($tables) > 0) {
-    turbo_log("Switching database table engine now...",'info','START');
+    turbo_log("Переключение механизма обработки таблиц Базы Данных...",'info','СТАРТ');
     foreach ($tables as $table_name => $table) {
       $time_mstart=microtime();
       if($table['engine'] != 'InnoDB') {
         $sql = "ALTER TABLE `{$table_name}` ENGINE = INNODB";
         if($rs = $db->query($sql)) {
-          turbo_log("{$table_name} Converted from {$table['engine']} to InnoDB",'success','SUCCESS');
+          turbo_log("{$table_name} Преобразованно из {$table['engine']} в InnoDB",'success','ГОТОВО');
         }
         else {
-          turbo_log("{$table_name} Engine switch failed - ".$db->error,'danger','ERROR');
+          turbo_log("{$table_name} Ошибка - ".$db->error,'danger','ОШИБКА');
         }
       }
       else {
-        turbo_log("{$table_name} is already using the InnoDB engine",'info','SKIP');
+        turbo_log("{$table_name} уже используется InnoDB",'info','ПРОПУЩЕНО');
       }
 	  $time_mend=microtime();
 	  $time = ($time_mend - $time_mstart) * 100000;
-      turbo_log("Execution time for editing table ".$table_name." was ".round($time,1)." ms",'primary','DEBUG');
+      turbo_log("Время выполнения ".$table_name." was ".round($time,1)." ms",'primary','DEBUG');
 	  //wall_clock("{$table_name}");
     }
   }
   else {
-    turbo_log("Aborting",'danger','ERROR');
-	turbo_log("Table count was not greater than 0",'primary','DEBUG');
+    turbo_log("Прервано",'danger','ERROR');
+	turbo_log("Количество таблиц не превышало 0",'primary','DEBUG');
   }
   // Display execution time
   wall_clock('switch_engine');
@@ -181,10 +181,10 @@ function turbo_table_indexes() {
   $tables = turbo_get_tables(true);
   $time_mend=microtime();
   $time = ($time_mend - $time_mstart) * 1000;
-  turbo_log("Execution time for fetching ".count($tables)." tables was ".round($time,1)." ms",'primary','DEBUG');
+  turbo_log("Время выполнения выборки ".count($tables)." составило ".round($time,1)." мс",'primary','DEBUG');
   
   if($tables && count($tables) > 0) {
-    turbo_log("Adding indexes to tables now...",'info','START');
+    turbo_log("Добавление индексов к таблицам...",'info','СТАРТ');
     // Loop through Tables
     foreach($tables as $table_name => $table) {
 	$time_mstart=microtime();
@@ -216,25 +216,25 @@ function turbo_table_indexes() {
           // Has no Index and needs an Index
           $sql = "ALTER TABLE `{$table_name}` ADD INDEX (  `{$column_name}` )";
           if($output = $db->query($sql)) {
-            turbo_log("{$table_name}.{$column_name} - Index added",'success','SUCCESS');
+            turbo_log("{$table_name}.{$column_name} - Добавлен индекс",'success','ГОТОВО');
           }
           else {
-            turbo_log("{$table_name}.{$column_name} - Index add failed - ".$db->error,'danger','ERROR');
+            turbo_log("{$table_name}.{$column_name} - Не удалось добавить индекс - ".$db->error,'danger','ОШИБКА');
           }
         }
         elseif($needs_index) {
           // Needs an Index but already has one
-          turbo_log("{$table_name}.{$column_name} - Index already exists",'info','INFO');
+          turbo_log("{$table_name}.{$column_name} - Индекс уже существует",'info','ИНФОРМАЦИЯ');
         }
       }
 	$time_mend=microtime();
     $time = ($time_mend - $time_mstart) * 100000;
-    turbo_log("Execution time for working on ".$table_name." table was ".round($time,1)." ms",'primary','DEBUG');
+    turbo_log("Время выполнения для работы над ".$table_name." составило ".round($time,1)." мс",'primary','DEBUG');
     }
   }
   else {
-    turbo_log("Aborting",'danger','ERROR');
-	turbo_log("Table count was not greater than 0",'primary','DEBUG');
+    turbo_log("Прервано",'danger','ОШИБКА');
+	turbo_log("Количество таблиц не превышало 0",'primary','DEBUG');
   }
   // Display execution time
   wall_clock('turbo_table_indexes');
@@ -250,7 +250,7 @@ function turbo_delete_self() {
   }
   else {
   //turbo_log("Files cleaned up successfully...",'danger','DELETED'); //this made the script write to a new log file - doh!
-  die("Files cleaned up successfully..."); //so we just die instead
+  die("Файлы успешно очищены..."); //so we just die instead
   }
 }
 
@@ -264,7 +264,7 @@ function turbo_get_tables($getindexes=false) {
   if($rs = $db->query($sql)) {
     if($rs->num_rows > 0) {
       // Table list loaded
-      turbo_log("{$rs->num_rows} tables found...",'info','START');
+      turbo_log("{$rs->num_rows} найденные таблицы...",'info','СТАРТ');
       $tables = array();
       while ($row = $rs->fetch_assoc()) {
         $table               = array();
@@ -278,7 +278,7 @@ function turbo_get_tables($getindexes=false) {
                   WHERE TABLE_SCHEMA LIKE '".DB_DATABASE."'
                   AND TABLE_NAME LIKE '".$table['name']."'";
           $table['indexes'] = array();
-		  turbo_log("Running SQL - Line 265",'primary','DEBUG');
+		  turbo_log("Запуск SQL - строки 265",'primary','DEBUG');
           if($rsi = $db->query($sqli)) {
             while($indexes = $rsi->fetch_assoc()) {
               $index             = array();
@@ -313,7 +313,7 @@ function turbo_get_tables($getindexes=false) {
             }
           }
           else {
-            turbo_log("No database columns found in table {$table['name']}",'danger','ERROR');
+            turbo_log("В таблице не найдено столбцов базы данных {$table['name']}",'danger','ОШИБКА');
           }
         }
         $tables[$table['name']] = $table;
@@ -321,11 +321,11 @@ function turbo_get_tables($getindexes=false) {
     }
     else {
       // No tables found
-      turbo_log("No database tables found",'danger','Error');
+      turbo_log("Таблицы базы данных не найдены",'danger','Error');
     }
   }
   else {
-    turbo_log("Unable to retrieve database table list",'danger','ERROR');
+    turbo_log("Не удается получить список таблиц базы данных",'danger','ERROR');
   }
   return $tables;
 }
@@ -334,7 +334,7 @@ function turbo_get_tables($getindexes=false) {
 function wall_clock($type='unknown') {
   // Work out execution time for debugging
   $time = microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"];
-  turbo_log("Execution time for module ".$type." was ".round($time,2)." seconds",'primary','TIMER');
+  turbo_log("Время выполнения модуля ".$type." составило ".round($time,2)." секунд",'primary','TIMER');
 }
 
 
